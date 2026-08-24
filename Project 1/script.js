@@ -419,7 +419,7 @@ registerForm.addEventListener("submit", e=>{
   registerForm.reset();
   openModal(`
     <div class="modal-icon">🩸</div>
-    <h3>Welcome to LifeSaver, ${name}!</h3>
+    <h3>Welcome to LifeLink, ${name}!</h3>
     <p>You're now registered as a ${bloodGroup} donor in ${area}, ${city}.</p>
     <div class="modal-actions">
       <button class="btn btn-primary" id="goToDashboardBtn">Go to Donor Dashboard</button>
