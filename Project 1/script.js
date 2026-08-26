@@ -1,13 +1,5 @@
-/* ===========================================================
-   RaktSetu — Blood Donor Finder
-   Vanilla JS application logic
-   All data is DEMO DATA for prototype purposes only.
-   =========================================================== */
-
-/* ---------- 1. MOCK / SEED DATA ---------- */
 
 // Blood group compatibility reference (general red-cell donation rules).
-// NOT medical advice — see disclaimer shown alongside this table in the UI.
 const BLOOD_COMPATIBILITY = {
   "O-":  { donatesTo: "All groups (universal red-cell donor)", receivesFrom: "O-" },
   "O+":  { donatesTo: "O+, A+, B+, AB+",                        receivesFrom: "O+, O-" },
@@ -58,7 +50,7 @@ const SEED_REQUESTS = [
   { id:"r5", patient:"Patient E", bloodGroup:"O-",  units:4, hospital:"Apex Trauma Center", city:"Delhi", area:"Saket",      distanceKm:6.1, urgency:"Critical", postedAt:"2026-08-22T05:00:00" }
 ];
 
-/* ---------- 2. STORAGE HELPERS ---------- */
+/* ----------  STORAGE HELPERS ---------- */
 // Thin wrappers around localStorage so the rest of the app doesn't touch it directly.
 // This is the seam where a real backend (Firebase, REST API) would plug in later.
 
@@ -84,13 +76,13 @@ function loadCurrentDonor(){
 }
 function saveCurrentDonor(donor){ localStorage.setItem("rs_currentDonor", JSON.stringify(donor)); }
 
-/* ---------- 3. APP STATE ---------- */
+/* ---------- APP STATE ---------- */
 let donors = loadDonors();
 let requests = loadRequests();
 let lastSearchResults = [];
 let lastSearchQuery = null;
 
-/* ---------- 4. NAVIGATION ---------- */
+/* ----------  NAVIGATION ---------- */
 const navLinks = document.querySelectorAll("[data-nav]");
 const pages = document.querySelectorAll(".page");
 const mainNav = document.getElementById("mainNav");
@@ -120,7 +112,7 @@ hamburgerBtn.addEventListener("click", ()=>{
   mainNav.classList.toggle("open");
 });
 
-/* ---------- 5. TOAST + MODAL HELPERS ---------- */
+/* ----------  TOAST + MODAL HELPERS ---------- */
 const toastEl = document.getElementById("toast");
 function showToast(message){
   toastEl.textContent = message;
@@ -142,7 +134,7 @@ function closeModal(){
   modalOverlay.classList.remove("open");
 }
 
-/* ---------- 6. HOME PAGE: STATS + COMPATIBILITY TABLE ---------- */
+/* ----------  HOME PAGE: STATS + COMPATIBILITY TABLE ---------- */
 function animateStats(){
   document.querySelectorAll(".stat-num").forEach(el=>{
     if(el.dataset.animated) return;
@@ -174,7 +166,7 @@ function renderCompatibilityTable(tbodyId){
 renderCompatibilityTable("compatTableBody");
 renderCompatibilityTable("compatTableBodyAbout");
 
-/* ---------- 7. FIND BLOOD: SEARCH, SORT, FILTER ---------- */
+/* ----------  FIND BLOOD: SEARCH, SORT, FILTER ---------- */
 const findForm = document.getElementById("findForm");
 const donorResultsEl = document.getElementById("donorResults");
 const resultsToolbar = document.getElementById("resultsToolbar");
@@ -371,7 +363,7 @@ function submitBloodRequest(query){
   });
 }
 
-/* ---------- 8. DONOR REGISTRATION ---------- */
+/* ----------  DONOR REGISTRATION ---------- */
 const registerForm = document.getElementById("registerForm");
 
 registerForm.addEventListener("submit", e=>{
@@ -431,7 +423,7 @@ registerForm.addEventListener("submit", e=>{
   });
 });
 
-/* ---------- 9. DONOR DASHBOARD ---------- */
+/* ----------  DONOR DASHBOARD ---------- */
 const dashboardContent = document.getElementById("dashboardContent");
 const dashboardWelcome = document.getElementById("dashboardWelcome");
 
@@ -504,7 +496,7 @@ function renderDashboard(){
   }
 }
 
-/* ---------- 10. BLOOD REQUESTS PAGE ---------- */
+/* ----------  BLOOD REQUESTS PAGE ---------- */
 function requestCardHtml(r, isDashboardCard = false){
   const posted = new Date(r.postedAt);
   const timeAgo = timeSince(posted);
@@ -556,7 +548,7 @@ function renderRequests(){
   });
 }
 
-/* ---------- 11. CONTACT FORM ---------- */
+/* ----------  CONTACT FORM ---------- */
 document.getElementById("contactForm").addEventListener("submit", e=>{
   e.preventDefault();
   const errorEl = document.getElementById("contactFormError");
@@ -573,5 +565,5 @@ document.getElementById("contactForm").addEventListener("submit", e=>{
   showToast("Message sent. Thanks for reaching out!");
 });
 
-/* ---------- 12. INIT ---------- */
+/* ----------  INIT ---------- */
 animateStats();
