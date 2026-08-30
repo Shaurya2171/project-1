@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeLink — Smart Blood Donation Network</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="#" class="brand" data-nav="home">
+      <svg class="brand-drop" viewBox="0 0 24 28" width="22" height="26"><path d="M12 0C12 0 2 13.5 2 19.5C2 24.75 6.48 28 12 28C17.52 28 22 24.75 22 19.5C22 13.5 12 0 12 0Z"/></svg>
+      <span>Life<em>Link</em></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#" data-nav="home" class="nav-link active">Home</a>
+      <a href="#" data-nav="find" class="nav-link">Find Blood</a>
+      <a href="#" data-nav="register" class="nav-link">Become a Donor</a>
+      <a href="#" data-nav="dashboard" class="nav-link">Donor Dashboard</a>
+      <a href="#" data-nav="requests" class="nav-link">Blood Requests</a>
+      <a href="#" data-nav="about" class="nav-link">How It Works</a>
+      <a href="#" data-nav="contact" class="nav-link">Contact</a>
+    </nav>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ============ HOME ============ -->
+  <section class="page active" id="page-home">
+
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Demo prototype · not a live medical service</span>
+        <h1>Find Blood.<br>Save Lives.</h1>
+        <p class="hero-sub">Connect patients with nearby registered blood donors when every minute matters.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" data-nav="find">Find Blood</button>
+          <button class="btn btn-outline btn-lg" data-nav="register">Become a Donor</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="pulse-line" viewBox="0 0 400 120" preserveAspectRatio="none">
+          <polyline points="0,60 90,60 110,20 130,100 150,60 400,60" fill="none"/>
+        </svg>
+        <svg class="hero-drop" viewBox="0 0 24 28"><path d="M12 0C12 0 2 13.5 2 19.5C2 24.75 6.48 28 12 28C17.52 28 22 24.75 22 19.5C22 13.5 12 0 12 0Z"/></svg>
+      </div>
+    </div>
+
+    <section class="stats-strip">
+      <div class="stat"><span class="stat-num" data-count="10842">0</span><span class="stat-label">Registered Donors</span></div>
+      <div class="stat"><span class="stat-num" data-count="3217">0</span><span class="stat-label">Blood Requests Handled</span></div>
+      <div class="stat"><span class="stat-num" data-count="2594">0</span><span class="stat-label">Lives Connected</span></div>
+      <div class="stat"><span class="stat-num" data-count="18">0</span><span class="stat-label">Cities Covered</span></div>
+    </section>
+
+    <section class="how-section">
+      <h2>How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-index">01</span>
+          <h3>Submit Blood Request</h3>
+          <p>Share the blood group, units needed, hospital and urgency in one short form.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-index">02</span>
+          <h3>Find Compatible Donors</h3>
+          <p>We match against registered donors nearby, sorted by distance and availability.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-index">03</span>
+          <h3>Contact a Donor</h3>
+          <p>Send a request or place a call directly from a donor's card.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-index">04</span>
+          <h3>Get Help</h3>
+          <p>Coordinate the donation with the donor and your hospital's blood bank.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="compat-section">
+      <h2>Blood Compatibility, at a Glance</h2>
+      <p class="section-sub">A general reference for red-cell donation. Always confirm with a qualified medical professional.</p>
+      <div class="compat-table-wrap">
+        <table class="compat-table">
+          <thead><tr><th>Blood Group</th><th>Can commonly donate to</th><th>Can commonly receive from</th></tr></thead>
+          <tbody id="compatTableBody"></tbody>
+        </table>
+      </div>
+      <p class="disclaimer-note">⚠️ Blood compatibility can depend on the type of blood component (whole blood, plasma, platelets) and clinical circumstances. This table is general reference only, not medical advice. Final compatibility must always be confirmed by qualified medical professionals and the hospital blood bank.</p>
+    </section>
+
+  </section>
+
+  <!-- ============ FIND BLOOD ============ -->
+  <section class="page" id="page-find">
+    <div class="page-head">
+      <h1>Find Blood</h1>
+      <p>Search registered donors near your hospital or locality.</p>
+    </div>
+
+    <div class="emergency-banner">
+      🚨 <strong>Emergency?</strong> This platform does not guarantee blood availability. For urgent medical situations, contact your hospital, local blood bank, or emergency services immediately.
+    </div>
+
+    <div class="find-layout">
+      <form class="card form-card" id="findForm">
+        <h2>Request Details</h2>
+
+        <label>Patient Name
+          <input type="text" id="fPatientName" placeholder="e.g. Anita Sharma" required>
+        </label>
+
+        <label>Required Blood Group
+          <select id="fBloodGroup" required>
+            <option value="">Select blood group</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </label>
+
+        <div class="form-row">
+          <label>Units Required
+            <input type="number" id="fUnits" min="1" max="10" value="1" required>
+          </label>
+          <label>Urgency
+            <select id="fUrgency" required>
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Hospital Name
+          <input type="text" id="fHospital" placeholder="e.g. City Hospital" required>
+        </label>
+
+        <div class="form-row">
+          <label>City
+            <select id="fCity" required>
+              <option value="">Select city</option>
+              <option>Delhi</option><option>Noida</option><option>Gurugram</option>
+            </select>
+          </label>
+          <label>Area / Pincode
+            <input type="text" id="fArea" placeholder="e.g. Rohini or 110085">
+          </label>
+        </div>
+
+        <label>Contact Number
+          <input type="tel" id="fContact" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-full">Find Donors</button>
+        <p class="form-error" id="findFormError"></p>
+      </form>
+
+      <div class="results-col">
+        <div class="results-toolbar" id="resultsToolbar" style="display:none;">
+          <span id="resultsCount"></span>
+          <select id="sortSelect">
+            <option value="distance">Sort: Nearest first</option>
+            <option value="available">Sort: Available donors first</option>
+            <option value="recent">Sort: Recently active</option>
+          </select>
+        </div>
+        <div class="donor-results" id="donorResults">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 28" width="40" height="46"><path d="M12 0C12 0 2 13.5 2 19.5C2 24.75 6.48 28 12 28C17.52 28 22 24.75 22 19.5C22 13.5 12 0 12 0Z"/></svg>
+            <p>Fill the form to search for compatible, nearby donors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer-note footer-disclaimer">This platform is a donor-connect prototype and does not guarantee blood availability. In an emergency, contact your hospital, local blood bank, or emergency medical services immediately. Blood eligibility, compatibility, and donation suitability must be confirmed by qualified medical professionals.</p>
+  </section>
+
+  <!-- ============ REGISTER AS DONOR ============ -->
+  <section class="page" id="page-register">
+    <div class="page-head">
+      <h1>Become a Donor</h1>
+      <p>Register once — help save lives whenever you're available.</p>
+    </div>
+
+    <form class="card form-card wide" id="registerForm">
+      <div class="form-row">
+        <label>Full Name
+          <input type="text" id="rName" required>
+        </label>
+        <label>Age
+          <input type="number" id="rAge" min="18" max="65" required>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>Blood Group
+          <select id="rBloodGroup" required>
+            <option value="">Select blood group</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </label>
+        <label>Phone Number
+          <input type="tel" id="rPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>City
+          <select id="rCity" required>
+            <option value="">Select city</option>
+            <option>Delhi</option><option>Noida</option><option>Gurugram</option>
+          </select>
+        </label>
+        <label>Area
+          <input type="text" id="rArea" placeholder="e.g. Dwarka" required>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>Pincode
+          <input type="text" id="rPincode" placeholder="e.g. 110075">
+        </label>
+        <label>Email
+          <input type="email" id="rEmail" required>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>Last Donation Date
+          <input type="date" id="rLastDonation">
+        </label>
+        <label>Availability
+          <select id="rAvailability" required>
+            <option value="true">Available now</option>
+            <option value="false">Not available currently</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Profile Photo <span class="optional-tag">optional</span>
+        <input type="file" id="rPhoto" accept="image/*">
+      </label>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="rConsent" required>
+        <span>I agree to be contacted for blood donation requests.</span>
+      </label>
+
+      <p class="privacy-note">🔒 We only store what's needed to match you with nearby requests. Your phone number is never shown publicly — requesters contact you through the platform.</p>
+
+      <button type="submit" class="btn btn-primary btn-full">Register as Donor</button>
+      <p class="form-error" id="registerFormError"></p>
+    </form>
+  </section>
+
+  <!-- ============ DONOR DASHBOARD ============ -->
+  <section class="page" id="page-dashboard">
+    <div class="page-head">
+      <h1 id="dashboardWelcome">Donor Dashboard</h1>
+      <p>Manage your availability and respond to nearby requests.</p>
+    </div>
+
+    <div id="dashboardContent"></div>
+  </section>
+
+  <!-- ============ BLOOD REQUESTS ============ -->
+  <section class="page" id="page-requests">
+    <div class="page-head">
+      <h1>Active Blood Requests</h1>
+      <p>Live requests from patients and hospitals near you.</p>
+    </div>
+    <div class="requests-grid" id="requestsGrid"></div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="page" id="page-about">
+    <div class="page-head">
+      <h1>How LifeLink Works</h1>
+      <p>A donor-connect layer that sits between patients and the hospital blood bank — never a replacement for either.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="card about-card">
+        <h3>For patients &amp; families</h3>
+        <p>When a hospital doesn't have your required blood type in stock, LifeLink helps you quickly reach nearby registered donors who match your need, so you can coordinate directly while the hospital handles the medical process.</p>
+      </div>
+      <div class="card about-card">
+        <h3>For donors</h3>
+        <p>Register once, set your availability, and get notified about nearby requests that match your blood group — donate on your own terms, whenever you're able to.</p>
+      </div>
+      <div class="card about-card">
+        <h3>What this platform is not</h3>
+        <p>LifeLink is a prototype donor directory. It does not verify medical eligibility, guarantee blood availability, or replace a hospital blood bank. Always confirm compatibility and eligibility with medical professionals.</p>
+      </div>
+    </div>
+
+    <section class="compat-section">
+      <h2>Blood Compatibility Reference</h2>
+      <div class="compat-table-wrap">
+        <table class="compat-table">
+          <thead><tr><th>Blood Group</th><th>Can commonly donate to</th><th>Can commonly receive from</th></tr></thead>
+          <tbody id="compatTableBodyAbout"></tbody>
+        </table>
+      </div>
+      <p class="disclaimer-note">⚠️ Blood compatibility can depend on the type of blood component and clinical circumstances. Final compatibility must always be confirmed by qualified medical professionals and the hospital blood bank.</p>
+    </section>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="page" id="page-contact">
+    <div class="page-head">
+      <h1>Contact</h1>
+      <p>Questions about the prototype, or want to report an issue?</p>
+    </div>
+
+    <form class="card form-card" id="contactForm">
+      <label>Name
+        <input type="text" id="cName" required>
+      </label>
+      <label>Email
+        <input type="email" id="cEmail" required>
+      </label>
+      <label>Message
+        <textarea id="cMessage" rows="5" required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+      <p class="form-error" id="contactFormError"></p>
+    </form>
+
+    <div class="card contact-emergency">
+      <h3>Medical emergency?</h3>
+      <p>Don't wait on this form. Call your hospital or local emergency services immediately.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-brand">
+      <svg class="brand-drop" viewBox="0 0 24 28" width="18" height="21"><path d="M12 0C12 0 2 13.5 2 19.5C2 24.75 6.48 28 12 28C17.52 28 22 24.75 22 19.5C22 13.5 12 0 12 0Z"/></svg>
+      <span>Rakt<em>Setu</em></span>
+    </div>
+    <p class="footer-disclaimer">This platform is a donor-connect prototype and does not guarantee blood availability. In an emergency, contact your hospital, local blood bank, or emergency medical services immediately. Blood eligibility, compatibility, and donation suitability must be confirmed by qualified medical professionals.</p>
+    <p class="footer-demo-tag">All donor and request data on this site is demo data for prototype purposes only.</p>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
